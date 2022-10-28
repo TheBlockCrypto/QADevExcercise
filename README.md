@@ -1,22 +1,84 @@
-# QADevExcercise
-> Welcome to the The Block Product QA Engineer exercise! This exercise is here to get you acquainted with a small sample of what we do and for us to get acquainted with your skills. It should take no more than two hours of your time.
+# TheBlockCrypto - QADevExercise
 
+## Recommended IDE Setup and package manager
 
-## Some guidance
+- [VS Code](https://code.visualstudio.com/) +
+  - Install recommended packages and VSCode extensions: such as PW test, PW test runner etc.
+- [Node](https://nodejs.org/en/download/package-manager/#macos)
 
-1) Fork this repository to your personal GitHub account and clone the fork to your computer.
-2) Save and commit your answers to your fork of the repository, and push them back to your personal GitHub account.
-3) Use the Internet as a resource to help you complete your work. We do it all the time.
-4) We like to use [Web Driver IO](http://webdriver.io) for end to end testing, so please feel free to use. However, you may use any testing framework in order to accomplish your task.
-5) Have fun and don't overthink it!
+```sh
+brew install node
+```  
 
-## The Task
+## Install Playwright and dependencies
 
-1) Create an END-2-END test for this url:
-   1) [https://the-flock.vercel.app/](https://the-flock.vercel.app/)
-2) The app will have 3 components:
-   1) A simple todo component
-   1) A simple calculator component
-   1) A simple counter component
-3) Write a test that succesfully tests both successes and failures for each component
-4) When done, commit your work to your clone of this repository. Add any instructions we need to build your work. Send us a link to your clone.
+This test is designed in Playwright framework, you can read more on Playwright at [Playwright](https://playwright.dev/docs/intro).
+Install Playwright using npm package manager.
+
+```sh
+npm init playwright@latest
+```
+
+During the install process, choose Javascript as a preferred language.
+
+Playwright will create the required files and will download the default browsers for the test runner.
+Comment out or delete the following files that have been downloaded as they are duplicates and won't need them for this test, keep the ones that come with the exercise repo.
+
+- tests directory
+- test-examples
+- package-lock.json
+- package.json
+- playwright.congif.js
+
+### End-to-End
+
+By default our test will run on 1 browser: chrome using 3 workers. Tests are run in headless mode, meaning no browser will open up when running the tests.
+Results of the tests and test logs will be shown in the terminal. By default, if some of the tests fail, a HTML test report will open automatically.
+Alternatively, you can install a 3rd party Allure framework to show test results in a visual html report.
+
+Run tests: open terminal from the project directory then run the following commands:
+
+```sh
+npx playwright test
+```
+
+Open playwright HTML report:
+
+```sh
+npx playwright show-report
+```
+
+### Test coverage and scope
+
+This End-to-End test is written using POM object-oriented design pattern. Page object model design allows to write reusable and redable automation code and it is much easier to maintain over time. In POM design all web elements are stored in object repository and a test logic is kept separately from web elements.
+You will find 3 files in the e2e directriy: models which contains the 2 pom files and the main test file.
+The following cases are being asserted in the test:
+
+1. Loading of the website
+2. Rendering main web elements
+3. Calculator functionality: positive and negative(invalid operations) scenarios
+4. Checkist functionality: add new checkbox and hide it by unchecking
+5. Counter functionality: counter increments and decrements
+
+### Allure reporting (Optional)
+
+You can use a 3rd party reporter Allure for our Playwright tests. Upon test run a visual report will be
+served as a web page. To conigure allure in your local environment (first time installation): open
+terminal and run the following commands:
+
+```sh
+npm i -D @playwright/test allure-playwright
+```
+
+After running the e2e tests, open new terminal window from /app directory and run the following
+command: Generate allure report:
+
+```sh
+allure generate allure-results -o allure-report --clean
+```
+
+Open allure report:
+
+```sh
+allure open allure-report
+```
